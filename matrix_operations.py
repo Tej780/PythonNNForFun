@@ -64,12 +64,11 @@ def transpose(A: "Matrix") -> "Matrix":
     Return:
         (Matrix): Matrix transpose
     """
+    def _initialise_zeros(n: int, m: int):
+        return [[0] * m for _ in range(n)]
+
     n = len(A)
     m = len(A[0])
-
-    def _initialise_zeros(n: int, m: int):
-        [[0] * m for _ in range(n)]
-
     out = _initialise_zeros(m, n)
     for i in range(n):
         for j in range(m):
