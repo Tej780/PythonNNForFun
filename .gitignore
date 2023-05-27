@@ -161,4 +161,8 @@ cython_debug/
 
 *.lock
 
+# pyenv
 .python-version
+
+#flake8
+.flake8
