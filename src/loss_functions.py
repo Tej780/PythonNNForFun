@@ -30,6 +30,7 @@ def MSE(
             or the delta errors "vector" for backprop
     """
     assert len(y) == len(target)
+    assert len(y)>0
     if derivative:
         return [(2 / len(y)) * (y[i] - target[i]) for i in range(len(y))]
     diff = [(target[i] - y[i]) ** 2 for i in range(len(y))]
