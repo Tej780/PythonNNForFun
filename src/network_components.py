@@ -3,7 +3,7 @@
 import random
 from typing import TYPE_CHECKING, Callable, List, Tuple, TypeVar, Union
 
-import matrix_operations as mat
+import src.matrix_operations as mat
 from mypy_extensions import DefaultNamedArg
 
 if TYPE_CHECKING:
@@ -81,27 +81,6 @@ def forward(
         xs.append(x)
     return xs
 
-
-def MSE(
-    y: "Vector", target: "Vector", derivative: bool = False
-) -> Union[float, List[float]]:
-    """Mean Square Error between network output "vector" and target "vector".
-
-    Args:
-        y (Vector): Network output vector
-        target (Vector): Target vector
-        derivative (bool): Flag to calculate derivate of
-            loss function for backpropagation
-
-    Returns:
-        (Union[float,List[float]]): Either the loss scalar for a single vector,
-            or the delta errors "vector" for backprop
-    """
-    assert len(y) == len(target)
-    if derivative:
-        return [(2 / len(y)) * (y[i] - target[i]) for i in range(len(y))]
-    diff = [(target[i] - y[i]) ** 2 for i in range(len(y))]
-    return sum(diff) / len(diff)
 
 
 def dCdw(delta: "Vector", o_i: "Vector") -> "Matrix":
