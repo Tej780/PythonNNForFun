@@ -7,7 +7,7 @@ if TYPE_CHECKING:
     T = TypeVar("T", float, list)
 
 
-def relu(z: T, derivative: bool = False) -> T:
+def relu(z: "T", derivative: bool = False) -> "T":
     """Rectified linear Unit activtion function.
 
     Args:
@@ -28,7 +28,7 @@ def relu(z: T, derivative: bool = False) -> T:
         return [relu(x, derivative) for x in z]
 
 
-def sigmoid(z: T, derivative: bool = False) -> T:
+def sigmoid(z: "T", derivative: bool = False) -> "T":
     """Sigmoid activtion function.
 
     Args:

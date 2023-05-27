@@ -1,7 +1,7 @@
 """Neural Network utilities based on Python Collections."""
 
 import random
-from typing import TYPE_CHECKING, Callable, List, Tuple, TypeVar, Union
+from typing import TYPE_CHECKING, Callable, List, Tuple, TypeVar, Union, Optional
 
 import src.matrix_operations as mat
 from mypy_extensions import DefaultNamedArg
@@ -14,6 +14,10 @@ if TYPE_CHECKING:
     LossFunction = Callable[
         ["Vector", "Vector", DefaultNamedArg(bool, "derivative")],  # noqa: F821
         Union["Number", "Vector"],
+    ]
+    T = TypeVar("T", float, list)
+    ActivationFunction = Callable[
+        [T, DefaultNamedArg(bool, "derivative")], T  # noqa: F821
     ]
 
 
@@ -61,7 +65,10 @@ def init_NN(*layers: int):
 
 
 def forward(
-    x: "Vector", weights: List["Matrix"], biases: List["Vector"]
+    x: "Vector",
+    weights: List["Matrix"],
+    biases: List["Vector"],
+    activation: Optional["ActivationFunction"] = None,
 ) -> List["Vector"]:
     """Forward pass through the neural network.
 
@@ -69,6 +76,7 @@ def forward(
         x: Input vector
         weights (List[Matrix]): Neural network weights
         biases (List[Vector]): Neural network biases
+        activation (ActivationFunction): Non-linear activation on layer output
 
     Returns:
         (List[Vector]): Output for each layer in the network
@@ -79,8 +87,9 @@ def forward(
         x = mat.matvec(weights[i], x)
         x = mat.tensor_addition(x, biases[i])
         xs.append(x)
+    if activation is not None:
+        xs = activation(xs)
     return xs
-
 
 
 def dCdw(delta: "Vector", o_i: "Vector") -> "Matrix":
@@ -113,6 +122,7 @@ def backprop(
     target: "Vector",
     loss_fn: "LossFunction",
     learning_rate: float,
+    activation: Optional["ActivationFunction"] = None,
 ):
     """Propagate error back through network weights and biases.
 
@@ -123,6 +133,7 @@ def backprop(
         target (Vector): Target vector
         loss_fn (LossFunction): Loss function with respect to which
          the gradients are calculated
+        activation (ActivationFunction): Non-linear activation on layer output
 
     Returns:
         Tuple[List[Matrix],List[Vector]]: Updated weights and biases
@@ -130,6 +141,8 @@ def backprop(
     new_weights = []
     new_biases = []
     dl = loss_fn(y[-1], target, derivative=True)
+    if activation is not None:
+        dl = mat.hadamard(dl, activation(y[-1], derivative=True))
     for i in reversed(range(len(weights))):
         new_weight = mat.tensor_addition(
             mat.scalar_multiply(-1 * learning_rate, dCdw(dl, y[i])), weights[i]
@@ -140,5 +153,7 @@ def backprop(
         new_weights.append(new_weight)
         new_biases.append(new_bias)
         dl = mat.matvec(mat.transpose(weights[i]), dl)
+        if activation is not None:
+            dl = mat.hadamard(dl, activation(y[i], derivative=True))
 
     return list(reversed(new_weights)), list(reversed(new_biases))

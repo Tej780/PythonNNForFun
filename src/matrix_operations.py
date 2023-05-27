@@ -95,9 +95,15 @@ def scalar_multiply(alpha: "Number", v: "Tensor") -> "Tensor":
 
 def hadamard(a: list, b: list):
     """Hadamard Product"""
-    assert len(a) == len(b)
-    acc = []
-    for i in range(len(a)):
-        acc.append(a[i] * b[i])
+    len_a = len(a)
+    assert len_a == len(b)
+    assert len_a>0
 
-    return acc
+    if isinstance(a[0],list):
+        return [hadamard(a[i],b[i]) for i in range(len_a)]
+    else:
+        acc = []
+        for i in range(len(a)):
+            acc.append(a[i] * b[i])
+
+        return acc
