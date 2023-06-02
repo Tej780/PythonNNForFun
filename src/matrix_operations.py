@@ -67,6 +67,8 @@ def transpose(A: "Matrix") -> "Matrix":
     def _initialise_zeros(n: int, m: int):
         return [[0] * m for _ in range(n)]
 
+    assert len(A)>0
+    assert len(A[0])>0
     n = len(A)
     m = len(A[0])
     out = _initialise_zeros(m, n)
