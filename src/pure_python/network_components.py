@@ -92,7 +92,7 @@ def forward(
     return xs
 
 
-def dCdw(delta: "Vector", o_i: "Vector") -> "Matrix":
+def _dCdw(delta: "Vector", o_i: "Vector") -> "Matrix":
     """Calculate the derivative of the Cost function with respect to the weight matrix.
 
     Outer product of input from the previous layer with the error from the output
@@ -145,7 +145,7 @@ def backprop(
         dl = mat.hadamard(dl, activation(y[-1], derivative=True))
     for i in reversed(range(len(weights))):
         new_weight = mat.tensor_addition(
-            mat.scalar_multiply(-1 * learning_rate, dCdw(dl, y[i])), weights[i]
+            mat.scalar_multiply(-1 * learning_rate, _dCdw(dl, y[i])), weights[i]
         )
         new_bias = mat.tensor_addition(
             mat.scalar_multiply(-1 * learning_rate, dl), biases[i]
