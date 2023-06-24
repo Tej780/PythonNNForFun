@@ -64,11 +64,12 @@ def transpose(A: "Matrix") -> "Matrix":
     Return:
         (Matrix): Matrix transpose
     """
+
     def _initialise_zeros(n: int, m: int):
         return [[0] * m for _ in range(n)]
 
-    assert len(A)>0
-    assert len(A[0])>0
+    assert len(A) > 0
+    assert len(A[0]) > 0
     n = len(A)
     m = len(A[0])
     out = _initialise_zeros(m, n)
@@ -99,10 +100,10 @@ def hadamard(a: list, b: list):
     """Hadamard Product"""
     len_a = len(a)
     assert len_a == len(b)
-    assert len_a>0
+    assert len_a > 0
 
-    if isinstance(a[0],list):
-        return [hadamard(a[i],b[i]) for i in range(len_a)]
+    if isinstance(a[0], list):
+        return [hadamard(a[i], b[i]) for i in range(len_a)]
     else:
         acc = []
         for i in range(len(a)):

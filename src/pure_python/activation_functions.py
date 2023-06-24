@@ -1,6 +1,5 @@
 """Module defining different Neural Network Loss functions."""
 import math
-
 from typing import TYPE_CHECKING, TypeVar
 
 if TYPE_CHECKING:

@@ -1,7 +1,8 @@
 """Neural Network utilities based on Python Collections."""
 
 import random
-from typing import TYPE_CHECKING, Callable, List, Tuple, TypeVar, Union, Optional
+from typing import (TYPE_CHECKING, Callable, List, Optional, Tuple, TypeVar,
+                    Union)
 
 import src.pure_python.matrix_operations as mat
 from mypy_extensions import DefaultNamedArg
