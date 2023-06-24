@@ -3,7 +3,7 @@
 import random
 from typing import TYPE_CHECKING, Callable, List, Tuple, TypeVar, Union, Optional
 
-import src.matrix_operations as mat
+import src.pure_python.matrix_operations as mat
 from mypy_extensions import DefaultNamedArg
 
 if TYPE_CHECKING:

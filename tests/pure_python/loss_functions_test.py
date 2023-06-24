@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, List, TypeVar
 
 import pytest
 
-from src import loss_functions as lf
+from src.pure_python import loss_functions as lf
 
 if TYPE_CHECKING:
     Number = TypeVar("Number", int, float)

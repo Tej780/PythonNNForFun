@@ -2,7 +2,7 @@
 
 import pytest
 
-from src import matrix_operations as mo
+from src.pure_python import matrix_operations as mo
 
 
 def test_tensor_addition():
